@@ -8,11 +8,10 @@ A spring boot project to cover CI/CD.
 
 1. [Introduction](#introduction)
 2. [Features](#features)
-3. [Prerequisites](#prerequisites)
+3. [Prerequisites](#Prerequisites)
 4. [Getting Started](#getting-started)
 5. [Usage](#usage)
-6. [Deployment](#deployment)
-7. [Built With](#built-with)
+6. [Built With](#built-with)
 
 
 ## Introduction
