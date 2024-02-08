@@ -9,6 +9,7 @@ import com.csye5.CloudComputing.service.UserOperationServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpRequest;
@@ -33,7 +34,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a user", description = "Create a user by giving First Name, Last Name, Username(email) and password")
     @Tag(name = "Public", description = "Operations available to all users without authentication")
-    public UserResponseModel postPerson(@RequestBody(required = true) @Validated UserModel userModel) throws UserAlreadyExistsException {
+    public UserResponseModel postPerson(@RequestBody(required = true) @Valid UserModel userModel) throws UserAlreadyExistsException {
         return userCreationService.createUser(userModel);
     }
 
