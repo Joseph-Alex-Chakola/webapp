@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,14 +18,17 @@ import lombok.Setter;
 @Setter
 @Hidden
 public class UserModel {
-    @Nonnull
+    @NotNull
     private String first_name;
-    @Nonnull
+
+    @NotNull
     private String last_name;
+
     @Email
-    @Nonnull
+    @NotNull
     private String username;
+
     @Size(min = 8, max = 30)
-    @Nonnull
+    @NotNull
     private String password;
 }
