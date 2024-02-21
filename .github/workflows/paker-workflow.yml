@@ -13,11 +13,9 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           packer_version: 1.10.1
-      - name: Change directory
-        run: cd packer
       - name: List files
         run: pwd && ls -l
       - name: Build with Packer
-        run: packer init .
+        run: cd packer && packer init .
       - name: Validate with Packer
-        run: packer validate .
+        run: cd packer && packer validate .
