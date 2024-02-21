@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -13,8 +15,6 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           packer_version: 1.10.1
-      - name: List files
-        run: export SECRET = ${{ secrets.PACKER_GCP }}
       - name: Revealing secrets
         run: echo $SECRET
       - name: Build with Packer
