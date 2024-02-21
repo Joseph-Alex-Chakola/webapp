@@ -1,0 +1,21 @@
+name: Packer Workflow
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v2
+        with:
+          packer_version: 1.10.1
+      - name: Change directory
+        run: cd packer
+      - name: Build with Packer
+        run: packer init .
+      - name: Validate with Packer
+        run: packer validate .
