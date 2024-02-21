@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Setup Packer
-        uses: hashicorp/setup-packer@v2
+        uses: hashicorp/setup-packer@main
         with:
           packer_version: 1.10.1
       - name: Change directory
