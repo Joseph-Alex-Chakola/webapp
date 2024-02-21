@@ -14,7 +14,7 @@ jobs:
         with:
           packer_version: 1.10.1
       - name: List files
-        run: pwd && ls -l
+        run: echo ${{ secrets.PACKER_GCP }}
       - name: Build with Packer
         run: cd packer && packer init .
       - name: Validate with Packer
