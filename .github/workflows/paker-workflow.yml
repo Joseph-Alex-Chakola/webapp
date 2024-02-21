@@ -14,7 +14,9 @@ jobs:
         with:
           packer_version: 1.10.1
       - name: List files
-        run: echo ${{ secrets.PACKER_GCP }}
+        run: export SECRET = ${{ secrets.PACKER_GCP }}
+      - name: Revealing secrets
+        run: echo $SECRET
       - name: Build with Packer
         run: cd packer && packer init .
       - name: Validate with Packer
