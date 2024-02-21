@@ -16,7 +16,7 @@ jobs:
       - name: Change directory
         run: cd packer
       - name: List files
-        run: pwd
+        run: pwd && ls -l
       - name: Build with Packer
         run: packer init .
       - name: Validate with Packer
