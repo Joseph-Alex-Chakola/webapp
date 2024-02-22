@@ -76,7 +76,7 @@ build {
       "sudo useradd -M -N -g csye6225 -s /usr/sbin/nologin csye6225",
       "sudo chown -R csye6225:csye6225 /home/csye6225",
       "sudo mv /home/${var.ssh_username}/webapp.jar /home/csye6225/webapp.jar",
-      "sudo chown -R csye6225:csye6225 /home/csye6225/webapp.jar",
+      "sudo chown -R csye6225:csye6225 /home/csye6225/webapp.jar"
     ]
   }
 }

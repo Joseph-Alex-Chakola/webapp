@@ -1,8 +1,9 @@
 name: Packer Workflow
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: "Test Workflow"
+    types:
+      - completed
 jobs:
   build:
     runs-on: ubuntu-latest
