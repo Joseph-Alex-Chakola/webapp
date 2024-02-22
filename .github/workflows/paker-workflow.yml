@@ -27,6 +27,8 @@ jobs:
         run: mvn --batch-mode package      
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Build Jar
+        run: mvn --batch-mode package
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         with:
