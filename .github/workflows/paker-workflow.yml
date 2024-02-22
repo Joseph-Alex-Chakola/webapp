@@ -1,0 +1,29 @@
+name: Packer Workflow
+on:
+  workflow_run:
+    workflows: ["Test Workflow"]
+    types:
+      - completed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SECRET: ${{ secrets.SECRET }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        with:
+          packer_version: 1.10.1
+      - name: Making the JSON file
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "csye6225.json"
+          json: ${{ secrets.PACKER_GCP}}
+      - name: LIsitng the files
+        run: sudo mv csye6225.json packer/csye6225.json
+      - name: Build with Packer
+        run: cd packer && packer init .
+      - name: Validate with Packer
+        run: cd packer && packer validate .
