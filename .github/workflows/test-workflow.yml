@@ -2,7 +2,7 @@ name: Test Workflow
 on:
     pull_request:
         branches:
-        - main
+            - master
 jobs:
     build:
             runs-on: ubuntu-latest
@@ -47,4 +47,4 @@ jobs:
             - name: Validate with Packer
               run: cd packer && packer validate .
             - name: Test
-              run: echo ${{ vars.BUILD_VARIALBES}}
+              run: echo ${{ vars.BUILD_VARIALBES}}> variables.pkrvars.hcl
