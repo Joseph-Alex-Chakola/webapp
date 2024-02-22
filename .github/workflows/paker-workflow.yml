@@ -43,7 +43,7 @@ jobs:
       - name: Build with Packer
         run: cd packer && packer init .
       - name: Validate with Packer
-        run: cd packer && packer build .
+        run: cd packer && packer validate .
       - name: Build image
         run: |
           cd packer
