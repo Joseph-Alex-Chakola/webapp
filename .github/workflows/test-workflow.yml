@@ -46,3 +46,5 @@ jobs:
               run: cd packer && packer init .
             - name: Validate with Packer
               run: cd packer && packer validate .
+            - name: Test
+              run: cd packer && packer build .
