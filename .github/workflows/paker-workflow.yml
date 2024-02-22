@@ -16,7 +16,7 @@ jobs:
         with:
           packer_version: 1.10.1
       - name: Making the JSON file
-        run: echo "${{ secrets.MY_JSON_SECRET }}" > csye6225.json
+        run: echo "${{ secrets.MY_JSON_SECRET }}" > /packer/csye6225.json
       - name: LIsitng the files
         run: ls -al
       - name: Build with Packer
