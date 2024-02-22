@@ -22,4 +22,4 @@ jobs:
       - name: Build with Packer
         run: cd packer && packer init .
       - name: Validate with Packer
-        run: cd packer && pwd
+        run: cd packer && ls -al 
