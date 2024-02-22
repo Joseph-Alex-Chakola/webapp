@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### MAC ###
+.DS_Store
+.AppleDouble
+
+### PACKER ###
+packer_cache/
+*.json
+*.pkvars.hcl

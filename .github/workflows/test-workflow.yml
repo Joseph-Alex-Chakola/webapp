@@ -2,7 +2,7 @@ name: Test Workflow
 on:
     pull_request:
         branches:
-        - main
+            - main
 jobs:
     build:
             runs-on: ubuntu-latest
@@ -40,9 +40,11 @@ jobs:
               with:
                 name: "csye6225.json"
                 json: ${{ secrets.PACKER_GCP}}
-            - name: LIsitng the files
+            - name: Moving the files
               run: sudo mv csye6225.json packer/csye6225.json
             - name: Build with Packer
               run: cd packer && packer init .
+            - name: Format with Packer
+              run: cd packer && packer fmt .
             - name: Validate with Packer
               run: cd packer && packer validate .
