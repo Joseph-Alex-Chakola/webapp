@@ -51,4 +51,4 @@ jobs:
             - name: Test
               run: |
                 echo ${{ vars.BUILD_VARIABLES}} > variables.pkvars.hcl
-                cd packer && packer build -var-file=variables.pkvars.hcl .
+                cd packer && packer build -var-file="variables.pkvars.hcl" .
