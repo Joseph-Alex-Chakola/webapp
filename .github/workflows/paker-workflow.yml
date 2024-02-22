@@ -1,7 +1,7 @@
 name: Packer Workflow
 on:
   workflow_run:
-    workflows: "Test Workflow"
+    workflows: ["Test Workflow"]
     types:
       - completed
 jobs:
