@@ -16,9 +16,12 @@ jobs:
         with:
           packer_version: 1.10.1
       - name: Making the JSON file
-        run: echo "${{ secrets.MY_JSON_SECRET }}" > csye6225.json && mv csye6225.json packer/csye6225.json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "csye6225.json"
+          json: ${{ secrets.PACKER_GCP}}
       - name: LIsitng the files
-        run: ls -al
+        run: sudo mv csye6225.json packer/csye6225.json
       - name: Build with Packer
         run: cd packer && packer init .
       - name: Validate with Packer
