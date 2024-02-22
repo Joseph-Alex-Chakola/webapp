@@ -39,7 +39,7 @@ variable "machine_type" {
 }
 variable "account_file" {
   type    = string
-  default = "csye6225dev-415015-626c7bbcdd3a.json"
+  default = "csye6225.json"
 }
 
 source "googlecompute" "centos-stream-8" {
@@ -49,7 +49,7 @@ source "googlecompute" "centos-stream-8" {
   image_name          = var.image_name
   source_image_family = var.source_image_family
   machine_type        = var.machine_type
-  account_file        = var.account_file
+  credentials_file    = var.account_file
 }
 
 build {
@@ -80,5 +80,3 @@ build {
     ]
   }
 }
-
-
