@@ -68,4 +68,3 @@ build {
   provisioner "shell" {
     script = "./scripts/startup.sh"
   }
-}
