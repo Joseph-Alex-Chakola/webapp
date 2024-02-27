@@ -43,7 +43,7 @@ variable "account_file" {
 }
 
 source "googlecompute" "centos-stream-8" {
-  project_id          = var.project_id
+  project_id          =   var.project_id
   zone                = var.zone
   ssh_username        = var.ssh_username
   image_name          = var.image_name
