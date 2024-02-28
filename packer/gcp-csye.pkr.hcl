@@ -62,10 +62,6 @@ build {
     destination = "/home/${var.ssh_username}/webapp.jar"
   }
   provisioner "file" {
-    source      = "./scripts/webapp.sh"
-    destination = "/tmp/webapp.sh"
-  }
-  provisioner "file" {
     source      = "./scripts/startup.service"
     destination = "/tmp/startup.service"
   }
