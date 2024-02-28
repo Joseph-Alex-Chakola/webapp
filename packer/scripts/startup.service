@@ -8,11 +8,11 @@ Type=simple
 User=csye6225
 Environment=export JAVA_HOME=/opt/jdk-18
 Environment=export PATH=$PATH:$JAVA_HOME/bin
-Environment=export DB_USERNAME=postgres
-Environment=export DB_PASSWORD=password
-Environment=export DB_HOST=localhost
-Environment=export DB_PORT=5432
-Environment=export DB_NAME=NEU
+Environment=export DB_USERNAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_username)
+Environment=export DB_PASSWORD=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password)
+Environment=export DB_HOST=$(echo $(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host)| sed 's/\./\./g')
+Environment=export DB_PORT=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_port)
+Environment=export DB_NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name)
 WorkingDirectory=/home/csye6225
 ExecStart=/opt/jdk-18/bin/java -jar /home/csye6225/webapp.jar
 Restart=on-failure
