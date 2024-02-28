@@ -1,7 +1,6 @@
 #! /bin/bash
 sudo mv /tmp/startup.service /etc/systemd/system/startup.service
 sudo systemctl daemon-reload
-sudo systemctl enable postgresql
 sudo systemctl enable startup.service
 sudo mkdir -p /home/csye6225
 sudo groupadd csye6225
