@@ -8,4 +8,7 @@ sudo useradd -M -N -g csye6225 -s /usr/sbin/nologin csye6225
 sudo chown -R csye6225:csye6225 /home/csye6225
 cd ~ || exit 1
 sudo mv webapp.jar /home/csye6225/webapp.jar
+sudo mv /tmp/webapp.sh /home/csye6225/webapp.sh
+sudo chown -R csye6225:csye6225 /home/csye6225/webapp.sh
+sudo chmod +x /home/csye6225/webapp.sh
 sudo chown -R csye6225:csye6225 /home/csye6225/webapp.jar
