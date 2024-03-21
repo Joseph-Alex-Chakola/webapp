@@ -1,11 +1,14 @@
 package com.csye5.CloudComputing.service;
 
 import com.csye5.CloudComputing.Exception.UserAlreadyExistsException;
+import com.csye5.CloudComputing.controller.UserController;
 import com.csye5.CloudComputing.dao.UserDao;
 import com.csye5.CloudComputing.model.UserModel;
 import com.csye5.CloudComputing.model.UserResponseModel;
 import com.csye5.CloudComputing.repository.User;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -17,11 +20,13 @@ public class UserOperationServices {
 
     UserDao userDao;
     PasswordManager passwordManager;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserResponseModel getUserDetails(String auth){
         Map<String,String> credentials =  passwordManager.decodeBase64(auth);
         User user = userDao.findUserByUsername(credentials.get("username"))
                 .orElseThrow();
+        logger.info("User found");
         if(passwordManager.checkPassword(credentials.get("password"), user.getPassword())){
             UserResponseModel result = new UserResponseModel();
             result.setId(user.getId());
@@ -30,8 +35,10 @@ public class UserOperationServices {
             result.setUsername(user.getUsername());
             result.setAccount_created(user.getAccountCreated());
             result.setAccount_updated(user.getAccountUpdated());
+            logger.info("User details returned");
             return result;
         }else {
+            logger.error("Password doesn't match");
             throw new NoSuchElementException("Password doesn't match");
         }
 

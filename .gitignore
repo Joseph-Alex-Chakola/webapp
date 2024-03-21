@@ -40,3 +40,6 @@ build/
 packer_cache/
 *.json
 *.pkvars.hcl
+
+### LOGS ###
+logs/
