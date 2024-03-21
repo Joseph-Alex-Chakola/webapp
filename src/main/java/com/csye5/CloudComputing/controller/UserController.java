@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -29,12 +31,14 @@ public class UserController {
 
     UserCreationService userCreationService;
     UserOperationServices userOperationServices;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a user", description = "Create a user by giving First Name, Last Name, Username(email) and password")
     @Tag(name = "Public", description = "Operations available to all users without authentication")
     public UserResponseModel postPerson(@RequestBody(required = true) @Valid UserModel userModel) throws UserAlreadyExistsException {
+        logger.info("Creating user");
         return userCreationService.createUser(userModel);
     }
 
@@ -43,6 +47,7 @@ public class UserController {
     @Operation(summary = "Get user information", description = "Get user information")
     @Tag(name = "Authenticated", description = "Operations Operations available only to authenticated users")
     public UserResponseModel getUserInformation(@RequestHeader("Authorization") String auth){
+        logger.info("Getting user information");
         return userOperationServices.getUserDetails(auth);
     }
     @PutMapping(value = "/self")
@@ -51,6 +56,7 @@ public class UserController {
     @Tag(name = "Authenticated", description = "Operations Operations available only to authenticated users")
     public void updateUserInformation(@RequestHeader("Authorization") String auth,
                                       @RequestBody(required = true) UserModel userModel){
+        logger.info("Updating user information");
         userOperationServices.updateUserDetails(auth, userModel);
 
     }

@@ -65,6 +65,10 @@ build {
     source      = "./scripts/startup.service"
     destination = "/tmp/startup.service"
   }
+  provisioner "file" {
+    source      = "./scripts/config.yaml"
+    destination = "/tmp/config.yaml"
+  }
   provisioner "shell" {
     script = "./scripts/startup.sh"
   }

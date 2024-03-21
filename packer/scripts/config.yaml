@@ -1,0 +1,12 @@
+logging:
+  receivers:
+    webapp-receiver:
+      type: files
+      include_paths:
+        - /var/log/csye6225/webapp.log
+  service:
+    pipelines:
+      default_pipeline:
+        receivers: [webapp-receiver]
+
+
