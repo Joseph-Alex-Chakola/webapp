@@ -1,25 +1,48 @@
 <configuration>
+    <conversionRule conversionWord="severity" converterClass="com.csye5.CloudComputing.log.SeverityConverter"/>
     <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeCallerData>true</includeCallerData>
-            <jsonGeneratorDecorator class="net.logstash.logback.decorate.CompositeJsonGeneratorDecorator">
-                <decorator class="net.logstash.logback.mask.MaskingJsonGeneratorDecorator">
-                    <defaultMask>XXXX</defaultMask>
-                    <path>password</path>
-                </decorator>
-            </jsonGeneratorDecorator>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "timestamp": "%date",
+                        "severity": "%severity",
+                        "level": "%level",
+                        "logger": "%logger",
+                        "message": "%message",
+                        "logger_name": "%logger",
+                        "thread": "%thread",
+                        "class": "%class",
+                        "method": "%method",
+                        "line": "%line"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_FILE_PATH}</file>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <includeCallerData>true</includeCallerData>
-            <jsonGeneratorDecorator class="net.logstash.logback.decorate.CompositeJsonGeneratorDecorator">
-                <decorator class="net.logstash.logback.mask.MaskingJsonGeneratorDecorator">
-                    <defaultMask>XXXX</defaultMask>
-                    <path>password</path>
-                </decorator>
-            </jsonGeneratorDecorator>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "timestamp": "%date",
+                        "severity": "%severity",
+                        "level": "%level",
+                        "logger": "%logger",
+                        "message": "%message",
+                        "logger_name": "%logger",
+                        "thread": "%thread",
+                        "class": "%class",
+                        "method": "%method",
+                        "line": "%line"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
         </encoder>
     </appender>
 
