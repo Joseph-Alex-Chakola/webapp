@@ -1,12 +1,27 @@
 logging:
   receivers:
-    webapp-receiver:
+    my-app-receiver:
       type: files
       include_paths:
-        - /var/log/csye6225/webapp.log
+      - /var/log/csye6225/webapp.log
+      record_log_file_path: true
+  processors:
+    my-app-processor:
+      type: parse_regex
+      regex: "^message:(?<my_app_logfile>.*) -"
+    parse_json:
+      type: parse_json
+      field: message
+    extract_severity:
+      type: modify_fields
+      fields: 
+        severity:
+          move_from: jsonPayload.message.level
   service:
     pipelines:
       default_pipeline:
-        receivers: [webapp-receiver]
+        receivers: [my-app-receiver]
+        processors: [my-app-processor, parse_json, extract_severity]
+
 
 
