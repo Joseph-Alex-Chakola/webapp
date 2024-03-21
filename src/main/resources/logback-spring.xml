@@ -1,5 +1,4 @@
 <configuration>
-    <conversionRule conversionWord="severity" converterClass="com.csye5.CloudComputing.log.SeverityConverter"/>
     <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -7,7 +6,6 @@
                     <pattern>
                         {
                         "timestamp": "%date",
-                        "severity": "%severity",
                         "level": "%level",
                         "logger": "%logger",
                         "message": "%message",
@@ -30,7 +28,6 @@
                     <pattern>
                         {
                         "timestamp": "%date",
-                        "severity": "%severity",
                         "level": "%level",
                         "logger": "%logger",
                         "message": "%message",
