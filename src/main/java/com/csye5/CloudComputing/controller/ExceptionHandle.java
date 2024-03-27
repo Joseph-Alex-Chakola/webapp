@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -44,6 +45,11 @@ public class ExceptionHandle {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public void MissingRequestHeader(MissingRequestHeaderException e) {
         logger.error("Missing Request Header: " + e.getMessage());
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public void AccessDenied(AccessDeniedException e) {
+        logger.error("Access Denied: " + e.getMessage());
     }
 
 }

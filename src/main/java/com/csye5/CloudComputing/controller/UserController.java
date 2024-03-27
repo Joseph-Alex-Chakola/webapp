@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 
 @RestController
@@ -29,9 +30,9 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     UserCreationService userCreationService;
     UserOperationServices userOperationServices;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,16 +47,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get user information", description = "Get user information")
     @Tag(name = "Authenticated", description = "Operations Operations available only to authenticated users")
-    public UserResponseModel getUserInformation(@RequestHeader("Authorization") String auth){
+    public UserResponseModel getUserInformation(@RequestHeader("Authorization") String auth) throws AccessDeniedException {
         logger.info("Getting user information");
         return userOperationServices.getUserDetails(auth);
     }
+
     @PutMapping(value = "/self")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update user information", description = "Update user information")
     @Tag(name = "Authenticated", description = "Operations Operations available only to authenticated users")
-    public void updateUserInformation(@RequestHeader("Authorization") String auth,
-                                      @RequestBody(required = true) UserModel userModel){
+    public void updateUserInformation(@RequestHeader("Authorization") String auth, @RequestBody(required = true) UserModel userModel) throws AccessDeniedException {
         logger.info("Updating user information");
         userOperationServices.updateUserDetails(auth, userModel);
 
