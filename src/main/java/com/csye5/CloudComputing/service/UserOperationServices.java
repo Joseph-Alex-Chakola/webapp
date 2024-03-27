@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -22,11 +23,15 @@ public class UserOperationServices {
     PasswordManager passwordManager;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    public UserResponseModel getUserDetails(String auth){
+    public UserResponseModel getUserDetails(String auth) throws AccessDeniedException {
         Map<String,String> credentials =  passwordManager.decodeBase64(auth);
         User user = userDao.findUserByUsername(credentials.get("username"))
                 .orElseThrow();
         logger.info("User found");
+        if(!user.isVerified()){
+            logger.error("User not verified");
+            throw new AccessDeniedException("User not verified");
+        }
         if(passwordManager.checkPassword(credentials.get("password"), user.getPassword())){
             UserResponseModel result = new UserResponseModel();
             result.setId(user.getId());
@@ -44,7 +49,7 @@ public class UserOperationServices {
 
     }
 
-    public void updateUserDetails(String auth, UserModel userModel) {
+    public void updateUserDetails(String auth, UserModel userModel) throws AccessDeniedException {
 
         if(userModel.getUsername()!=null){
             throw new IllegalArgumentException("Username cannot be updated");
@@ -53,6 +58,10 @@ public class UserOperationServices {
         Map<String,String> credentials =  passwordManager.decodeBase64(auth);
         User user = userDao.findUserByUsername(credentials.get("username")).orElseThrow();
 
+        if(!user.isVerified()){
+            logger.error("User not verified");
+            throw new AccessDeniedException("User not verified");
+        }
         if(passwordManager.checkPassword(credentials.get("password"), user.getPassword())) {
             if (userModel.getFirst_name() != null) {
                 user.setFirstName(userModel.getFirst_name());

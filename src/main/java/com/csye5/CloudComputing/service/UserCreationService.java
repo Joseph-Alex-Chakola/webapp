@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserCreationService {
     UserDao userDao;
     PasswordManager passwordManager;
+    EmailService emailService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserResponseModel createUser(UserModel userModel) throws UserAlreadyExistsException {
@@ -32,6 +33,7 @@ public class UserCreationService {
             user.setPassword(passwordManager.encryptPassword(userModel.getPassword()));
 
             User result = userDao.save(user);
+            emailService.sendEmail(userModel.getUsername());
             UserResponseModel userResponseModel = new UserResponseModel();
 
             userResponseModel.setId(result.getId());
