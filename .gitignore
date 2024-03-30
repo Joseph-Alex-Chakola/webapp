@@ -40,6 +40,7 @@ build/
 packer_cache/
 *.json
 *.pkvars.hcl
-
 ### LOGS ###
 logs/
+LOG_FILE_PATH_IS_UNDEFINED
+

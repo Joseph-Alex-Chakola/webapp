@@ -38,5 +38,5 @@ public class User {
     private Timestamp accountUpdated;
     @Column
     private boolean verified=false;
-    private String verificationCode;
+    private Timestamp verificationTime;
 }
