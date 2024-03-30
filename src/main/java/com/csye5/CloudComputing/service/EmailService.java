@@ -15,11 +15,8 @@ import java.io.IOException;
 
 @Component
 public class EmailService {
-    @Value("${GCP_PROJECT_ID}")
-    private String projectId;
-
-    @Value("${GCP_TOPIC_ID}")
-    private String topicId;
+    private final String projectId=System.getenv("GCP_PROJECT_ID");
+    private final String topicId=System.getenv("TOPIC_ID");
     private Publisher publisher;
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
@@ -35,6 +32,8 @@ public class EmailService {
     }
     public void sendEmail(String email) {
         try {
+            TopicName topicName = TopicName.of(projectId, topicId);
+            publisher = Publisher.newBuilder(topicName).build();
             ByteString data = ByteString.copyFromUtf8(email);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
             publisher.publish(pubsubMessage);
