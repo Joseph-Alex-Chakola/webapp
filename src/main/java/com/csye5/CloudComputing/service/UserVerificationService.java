@@ -27,7 +27,7 @@ public class UserVerificationService {
             return;
         }
 
-        Timestamp timestamp = user.getAccountUpdated();
+        Timestamp timestamp = user.getVerificationTime();
         Timestamp current = Timestamp.from(Instant.now());
         long ms = current.getTime() - timestamp.getTime();
 
