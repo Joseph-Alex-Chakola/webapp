@@ -1,6 +1,7 @@
 package com.csye5.CloudComputing.service;
 
 import com.csye5.CloudComputing.controller.DbHealthController;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
@@ -15,8 +16,10 @@ import java.io.IOException;
 
 @Component
 public class EmailService {
-    private final String projectId=System.getenv("GCP_PROJECT_ID");
-    private final String topicId=System.getenv("TOPIC_ID");
+    @Value("${GCP_PROJECT_ID}")
+    private String projectId;
+    @Value("${GCP_TOPIC_ID}")
+    private String topicId;
     private Publisher publisher;
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
@@ -36,7 +39,9 @@ public class EmailService {
             publisher = Publisher.newBuilder(topicName).build();
             ByteString data = ByteString.copyFromUtf8(email);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-            publisher.publish(pubsubMessage);
+            ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
+            String messageId = messageIdFuture.get();
+            logger.info("Published message ID: " + messageId);
             logger.info("Email sent: " + email);
         } catch (Exception e) {
             logger.error("Error sending email: " + e.getMessage());

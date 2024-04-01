@@ -1,6 +1,5 @@
 package com.csye5.CloudComputing.controller;
 
-import com.csye5.CloudComputing.service.EmailService;
 import com.csye5.CloudComputing.service.UserVerificationService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
