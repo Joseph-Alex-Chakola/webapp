@@ -13,7 +13,7 @@ ExecStart=/bin/bash -c 'export DB_USERNAME=$(curl -s "http://metadata.google.int
           export DB_PORT=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_port" -H "Metadata-Flavor: Google") && \
           export DB_NAME=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name" -H "Metadata-Flavor: Google") && \
           export LOG_FILE_PATH=/var/log/csye6225/webapp.log && \
-          export GCP_PROJECT_ID=$(curl -s "http://metadata.google.internal/computeMetadata/v1/project/project_id" -H "Metadata-Flavor: Google") && \
+          export GCP_PROJECT_ID=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/project_id" -H "Metadata-Flavor: Google") && \
           export GCP_TOPIC_ID=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/topic_id" -H "Metadata-Flavor: Google") && \
           /opt/jdk-18/bin/java -jar /home/csye6225/webapp.jar'
 Restart=on-failure
