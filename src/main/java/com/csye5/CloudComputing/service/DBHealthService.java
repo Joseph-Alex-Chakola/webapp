@@ -16,6 +16,7 @@ public class DBHealthService{
     public void checkHealth() throws SQLException {
         try{
             Connection connection = dataSource.getConnection();
+            connection.isValid(1000);
             connection.close();
         } catch (SQLException e) {
             throw new SQLException("Database Error: " + e.getMessage());
