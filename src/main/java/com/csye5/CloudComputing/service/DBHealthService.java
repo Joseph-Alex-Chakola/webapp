@@ -3,6 +3,7 @@ package com.csye5.CloudComputing.service;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @Component
@@ -13,6 +14,11 @@ public class DBHealthService{
     }
 
     public void checkHealth() throws SQLException {
-        dataSource.getConnection().isValid(1000);
+        try{
+            Connection connection = dataSource.getConnection();
+            connection.close();
+        } catch (SQLException e) {
+            throw new SQLException("Database Error: " + e.getMessage());
+        }
     }
 }
