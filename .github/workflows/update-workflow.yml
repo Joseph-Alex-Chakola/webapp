@@ -3,8 +3,6 @@ on:
     pull_request:
         branches:
             - main
-env:
-  TEMPLATE_NAME: csye6225-vm-template-$(date +%s)
 jobs:
     update-template:
         runs-on: ubuntu-latest
@@ -14,7 +12,8 @@ jobs:
               with:
                 credentials_json: '${{ secrets.GCP_SA_KEY }}'
                 create_credentials_file: true
-                
+            - name: 'Set Template Name'
+              run: echo "TEMPLATE_NAME=csye6225-vm-template-$(date +%s)" >> $GITHUB_ENV
             - name: 'Set up Cloud SDK'
               uses: 'google-github-actions/setup-gcloud@v2'
               with:
