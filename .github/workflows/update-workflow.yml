@@ -1,14 +1,20 @@
 name: Update Workflow
-on: 
-    workflow_run:
-        workflows: ["Packer Workflow"]
-        types:
-            - completed
+on:
+    pull_request:
         branches:
             - main
 jobs:
-    update:
+    update-template:
         runs-on: ubuntu-latest
         steps:
-            - name: Print a message
-              run: echo "The completed workflow has finished!"
+            - id: 'auth'
+              uses: 'google-github-actions/auth@v2'
+              with:
+                credentials_json: '${{ secrets.GCP_SA_KEY }}'
+            - name: 'Set up Cloud SDK'
+              uses: 'google-github-actions/setup-gcloud@v2'
+              with:
+                version: '>= 363.0.0'
+            - name: 'Use gcloud CLI'
+              run: 'gcloud info'
+

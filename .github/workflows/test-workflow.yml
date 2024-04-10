@@ -16,35 +16,35 @@ jobs:
                 ports:
                   - 5432:5432
                 options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-            steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-            - name: Setup Java
-              uses: actions/setup-java@v3
-              with:
-                java-version: 17
-                distribution: 'adopt'
-                cache: maven
-            - name: Set up Maven
-              uses: stCarolas/setup-maven@v4.5
-              with:
-                maven-version: 3.8.2
-            - name: Build with Maven
-              run: mvn --batch-mode package
-            - name: Setup Packer
-              uses: hashicorp/setup-packer@main
-              with:
-                packer_version: 1.10.1
-            - name: Making the JSON file
-              uses: jsdaniell/create-json@v1.2.3
-              with:
-                name: "csye6225.json"
-                json: ${{ secrets.PACKER_GCP}}
-            - name: Moving the files
-              run: sudo mv csye6225.json packer/csye6225.json
-            - name: Build with Packer
-              run: cd packer && packer init .
-            - name: Format with Packer
-              run: cd packer && packer fmt .
-            - name: Validate with Packer
-              run: cd packer && packer validate .
+            # steps:
+            # - name: Checkout repository
+            #   uses: actions/checkout@v2
+            # - name: Setup Java
+            #   uses: actions/setup-java@v3
+            #   with:
+            #     java-version: 17
+            #     distribution: 'adopt'
+            #     cache: maven
+            # - name: Set up Maven
+            #   uses: stCarolas/setup-maven@v4.5
+            #   with:
+            #     maven-version: 3.8.2
+            # - name: Build with Maven
+            #   run: mvn --batch-mode package
+            # - name: Setup Packer
+            #   uses: hashicorp/setup-packer@main
+            #   with:
+            #     packer_version: 1.10.1
+            # - name: Making the JSON file
+            #   uses: jsdaniell/create-json@v1.2.3
+            #   with:
+            #     name: "csye6225.json"
+            #     json: ${{ secrets.PACKER_GCP}}
+            # - name: Moving the files
+            #   run: sudo mv csye6225.json packer/csye6225.json
+            # - name: Build with Packer
+            #   run: cd packer && packer init .
+            # - name: Format with Packer
+            #   run: cd packer && packer fmt .
+            # - name: Validate with Packer
+            #   run: cd packer && packer validate .
