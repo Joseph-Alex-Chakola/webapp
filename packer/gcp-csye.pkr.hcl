@@ -7,7 +7,6 @@ packer {
     }
   }
 }
-
 variable "project_id" {
   type    = string
   default = "csye6225dev-415015"
@@ -32,7 +31,6 @@ variable "image_name" {
   type    = string
   default = "csye-centos-stream-8"
 }
-
 variable "machine_type" {
   type    = string
   default = "n1-standard-4"
@@ -46,7 +44,7 @@ source "googlecompute" "centos-stream-8" {
   project_id          =   var.project_id
   zone                = var.zone
   ssh_username        = var.ssh_username
-  image_name          = "${var.image_name}-${build.env.IMAGE_SUFFIX}"
+  image_name          = var.image_name
   source_image_family = var.source_image_family
   machine_type        = var.machine_type
   credentials_file    = var.account_file
@@ -57,11 +55,6 @@ build {
   provisioner "shell" {
     script = "./scripts/install.sh"
   }
-  provisioner "shell" {
-  inline = [
-    "export IMAGE_SUFFIX=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '')"
-  ]
-}
   provisioner "file" {
     source      = "../target/webapp.jar"
     destination = "/home/${var.ssh_username}/webapp.jar"
