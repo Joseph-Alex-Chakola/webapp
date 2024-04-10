@@ -18,7 +18,7 @@ jobs:
               with:
                 version: '>= 363.0.0'
                 project_id: '${{ vars.GCP_PROJECT_ID }}'
-            - name: 'Update VM Template'
+            - name: 'Create VM Template'
               run: |
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
@@ -31,6 +31,7 @@ jobs:
                 metadata=$(echo "${json_data}" | jq -r '.metadata')
                 service_account=$(echo "${json_data}" | jq -r '.serviceAccount')
                 kms_key=$(echo "${json_data}" | jq -r '.kmsKey')
+                region=$(echo "${json_data}" | jq -r '.region')
 
                 gcloud compute instance-templates create csye6225-vm-template \
                   --machine-type $machine_type \
@@ -44,3 +45,8 @@ jobs:
                   --service-account=$service_account \
                   --scopes=https://www.googleapis.com/auth/cloud-platform \
                   --boot-disk-kms-key $kms_key
+            - name: 'Update Instance Group'
+              run: |
+                gcloud compute instance-groups managed set-instance-template csye6225-vm-igm \
+                  --template=csye6225-vm-template\
+                  --region=$region
