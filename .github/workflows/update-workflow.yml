@@ -11,5 +11,4 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Print a message
-              run: echo "The completed workflow has finished."
-                 
+              run: echo "The completed workflow has finished!"
