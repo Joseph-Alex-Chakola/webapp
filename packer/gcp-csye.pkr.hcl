@@ -7,7 +7,6 @@ packer {
     }
   }
 }
-
 variable "project_id" {
   type    = string
   default = "csye6225dev-415015"
@@ -32,7 +31,6 @@ variable "image_name" {
   type    = string
   default = "csye-centos-stream-8"
 }
-
 variable "machine_type" {
   type    = string
   default = "n1-standard-4"
