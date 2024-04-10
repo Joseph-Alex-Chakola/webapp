@@ -48,3 +48,11 @@ jobs:
               run: cd packer && packer fmt .
             - name: Validate with Packer
               run: cd packer && packer validate .
+            - name: Set up GCLOUD
+              uses: google-github-actions/setup-gcloud@v0.2.0
+              with:
+                service_account_key: ${{ secrets.GCP_SA_KEY }}
+                project_id: ${{ secrets.GCP_PROJECT_ID }}
+                export_default_credentials: true
+            - name: Check the project
+              run: gcloud info
