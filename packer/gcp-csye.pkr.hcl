@@ -7,7 +7,14 @@ packer {
     }
   }
 }
-
+variable "random_suffix_length" {
+  type    = number
+  default = 4 // Change this value according to your requirements
+}
+resource "random_integer" "image_suffix" {
+  min     = 1000
+  max     = 9999
+}
 variable "project_id" {
   type    = string
   default = "csye6225dev-415015"
@@ -32,7 +39,10 @@ variable "image_name" {
   type    = string
   default = "csye-centos-stream-8"
 }
-
+variable "image_name_with_suffix" {
+  type = string
+  default = "${var.image_name}-${random_integer.image_suffix.result}"
+}
 variable "machine_type" {
   type    = string
   default = "n1-standard-4"
@@ -46,7 +56,7 @@ source "googlecompute" "centos-stream-8" {
   project_id          =   var.project_id
   zone                = var.zone
   ssh_username        = var.ssh_username
-  image_name          = var.image_name
+  image_name          = var.image_name_with_suffix
   source_image_family = var.source_image_family
   machine_type        = var.machine_type
   credentials_file    = var.account_file
