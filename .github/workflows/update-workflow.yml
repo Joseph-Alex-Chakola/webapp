@@ -47,6 +47,8 @@ jobs:
                   --boot-disk-kms-key $kms_key
             - name: 'Update Instance Group'
               run: |
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                region=$(echo "${json_data}" | jq -r '.region')
                 gcloud compute instance-groups managed set-instance-template csye6225-vm-igm \
-                  --template=csye6225-vm-template\
+                  --template=csye6225-vm-template \
                   --region=$region
