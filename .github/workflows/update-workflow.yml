@@ -22,8 +22,8 @@ jobs:
               run: |
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
-                json_data=$(echo '${{vars.BUILD_VARIABLES}}' | jq -r '.')
-                machine_type=$(echo "${json_data}" | jq -r '.machineType')
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                machine_type=$(echo "${json_data}" | | jq -r '.machineType')
                 disk_type=$(echo "${json_data}" | jq -r '.diskType')
                 disk_size=$(echo "${json_data}" | jq -r '.diskSize')
                 image=$(echo "${json_data}" | jq -r '.image')
