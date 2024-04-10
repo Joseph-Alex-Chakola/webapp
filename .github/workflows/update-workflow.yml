@@ -27,8 +27,8 @@ jobs:
                   --boot-disk-size 40 \
                   --boot-disk-type pd-balanced \
                   --image projects/csye6225dev-415015/global/images/csye-centos-stream-8 \
-                  --network csye6225-vpc \
-                  --subnet webapp \
+                  --network projects/csye-6225-414418/global/networks/csye6225-vpc\
+                  --subnet projects/csye-6225-414418/regions/us-east1/subnetworks/webapp \
                   --tags=webapp-firewall \
                   --metadata=db_password=DB_PASSWORD,db_username=DB_USERNAME,db_name=DB_NAME,db_host=DB_HOST,db_port=5432,project_id=PROJECT_ID,topic_id=TOPIC_ID \
                   --service-account=loggingserviceaccount@csye-6225-414418.iam.gserviceaccount.com \
