@@ -22,15 +22,27 @@ jobs:
               run: |
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
+                echo "${{ vars.TEMPLATE_CONFIG }}" > template_config.json
+                config=$(cat template_config.json)
+                machine_type=$(echo "${json_data}" | jq -r '.machineType')
+                disk_type=$(echo "${json_data}" | jq -r '.diskType')
+                disk_size=$(echo "${json_data}" | jq -r '.diskSize')
+                image=$(echo "${json_data}" | jq -r '.image')
+                subnet=$(echo "${json_data}" | jq -r '.subnet')
+                metadata=$(echo "${json_data}" | jq -r '.metadata')
+                service_account=$(echo "${json_data}" | jq -r '.serviceAccount')
+                kms_key=$(echo "${json_data}" | jq -r '.kmsKey')
+
+
                 gcloud compute instance-templates create csye6225-vm-template \
-                  --machine-type e2-medium \
-                  --boot-disk-size 40 \
-                  --boot-disk-type pd-balanced \
-                  --image projects/csye6225dev-415015/global/images/csye-centos-stream-8 \
+                  --machine-type $machine_type \
+                  --boot-disk-size $disk_size \
+                  --boot-disk-type $disk_type \
+                  --image $image \
                   --network projects/csye-6225-414418/global/networks/csye6225-vpc\
-                  --subnet projects/csye-6225-414418/regions/us-east1/subnetworks/webapp \
+                  --subnet $subnet \
                   --tags=webapp-firewall \
-                  --metadata=db_password=aWMVO*FA_mLO@RZd,db_username=webapp,db_name=webapp,db_host=172.20.0.2,db_port=5432,project_id=csye-6225-414418,topic_id=verify_email \
-                  --service-account=loggingserviceaccount@csye-6225-414418.iam.gserviceaccount.com \
+                  --metadata=$metadata\
+                  --service-account= $service_account\
                   --scopes=https://www.googleapis.com/auth/cloud-platform \
-                  --boot-disk-kms-key projects/csye-6225-414418/locations/us-east1/keyRings/my-key-ring-zmtYx/cryptoKeys/vm-crypto-key-zmtYx
+                  --boot-disk-kms-key $kms_key
