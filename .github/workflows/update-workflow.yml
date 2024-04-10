@@ -18,7 +18,7 @@ jobs:
               with:
                 version: '>= 363.0.0'
                 project_id: '${{ vars.GCP_PROJECT_ID }}'
-            - name: 'Use gcloud CLI'
+            - name: 'Update VM Template'
               run: |
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
@@ -30,7 +30,7 @@ jobs:
                   --network projects/csye-6225-414418/global/networks/csye6225-vpc\
                   --subnet projects/csye-6225-414418/regions/us-east1/subnetworks/webapp \
                   --tags=webapp-firewall \
-                  --metadata=db_password=DB_PASSWORD,db_username=DB_USERNAME,db_name=DB_NAME,db_host=DB_HOST,db_port=5432,project_id=PROJECT_ID,topic_id=TOPIC_ID \
+                  --metadata=db_password=aWMVO*FA_mLO@RZd,db_username=webapp,db_name=webapp,db_host=172.20.0.2,db_port=5432,project_id=csye-6225-414418,topic_id=verify_email \
                   --service-account=loggingserviceaccount@csye-6225-414418.iam.gserviceaccount.com \
                   --scopes=https://www.googleapis.com/auth/cloud-platform \
                   --boot-disk-kms-key projects/csye-6225-414418/locations/us-east1/keyRings/my-key-ring-zmtYx/cryptoKeys/vm-crypto-key-zmtYx
