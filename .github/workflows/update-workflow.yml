@@ -18,5 +18,5 @@ jobs:
                 version: '>= 363.0.0'
                 project_id: '${{ vars.GCP_PROJECT_ID }}'
             - name: 'Use gcloud CLI'
-              run: 'gcloud info'
+              run: 'gcloud projects list'
 
