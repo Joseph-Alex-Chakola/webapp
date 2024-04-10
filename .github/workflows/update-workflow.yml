@@ -1,5 +1,5 @@
 name: Update Workflow
-on: 
+on:
     workflow_run:
         workflows: ["Packer Workflow"]
         types:
@@ -7,8 +7,60 @@ on:
         branches:
             - main
 jobs:
-    update:
+    update-template:
         runs-on: ubuntu-latest
+        if: github.event.workflow_run.conclusion == 'success'
         steps:
-            - name: Print a message
-              run: echo "The completed workflow has finished!"
+            - id: 'auth'
+              uses: 'google-github-actions/auth@v2'
+              with:
+                credentials_json: '${{ secrets.GCP_SA_KEY }}'
+                create_credentials_file: true
+            - name: 'Set Template Name'
+              run: echo "TEMPLATE_NAME=csye6225-vm-template-$(date +%s)" >> $GITHUB_ENV
+            - name: 'Set up Cloud SDK'
+              uses: 'google-github-actions/setup-gcloud@v2'
+              with:
+                version: '>= 363.0.0'
+                project_id: '${{ vars.GCP_PROJECT_ID }}'
+            - name: 'Create VM Template'
+              run: |
+                gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
+                gcloud projects list
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                machine_type=$(echo "${json_data}" | jq -r '.machineType')
+                disk_type=$(echo "${json_data}" | jq -r '.diskType')
+                disk_size=$(echo "${json_data}" | jq -r '.diskSize')
+                image=$(echo "${json_data}" | jq -r '.image')
+                subnet=$(echo "${json_data}" | jq -r '.subnet')
+                metadata=$(echo "${json_data}" | jq -r '.metadata')
+                service_account=$(echo "${json_data}" | jq -r '.serviceAccount')
+                kms_key=$(echo "${json_data}" | jq -r '.kmsKey')
+                region=$(echo "${json_data}" | jq -r '.region')
+
+                gcloud compute instance-templates create ${{env.TEMPLATE_NAME}} \
+                  --machine-type $machine_type \
+                  --boot-disk-size $disk_size \
+                  --boot-disk-type $disk_type \
+                  --image $image \
+                  --network projects/csye-6225-414418/global/networks/csye6225-vpc\
+                  --subnet $subnet \
+                  --tags=webapp-firewall \
+                  --metadata=$metadata \
+                  --service-account=$service_account \
+                  --scopes=https://www.googleapis.com/auth/cloud-platform \
+                  --boot-disk-kms-key $kms_key
+            - name: 'Update Instance Group'
+              run: |
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                region=$(echo "${json_data}" | jq -r '.region')
+                gcloud compute instance-groups managed rolling-action start-update csye6225-vm-igm \
+                  --version template=${{env.TEMPLATE_NAME}} \
+                  --region=$region
+            - name: 'Check Update Status'
+              run: |
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                region=$(echo "${json_data}" | jq -r '.region')
+                gcloud compute instance-groups managed wait-until csye6225-vm-igm \
+                  --version-target-reached \
+                  --region=$region
