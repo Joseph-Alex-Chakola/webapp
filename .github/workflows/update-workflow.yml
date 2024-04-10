@@ -23,7 +23,7 @@ jobs:
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
                 echo "${{ vars.TEMPLATE_CONFIG }}" > template_config.json
-                config=$(cat template_config.json)
+                json_data=$(cat template_config.json)
                 machine_type=$(echo "${json_data}" | jq -r '.machineType')
                 disk_type=$(echo "${json_data}" | jq -r '.diskType')
                 disk_size=$(echo "${json_data}" | jq -r '.diskSize')
@@ -32,7 +32,6 @@ jobs:
                 metadata=$(echo "${json_data}" | jq -r '.metadata')
                 service_account=$(echo "${json_data}" | jq -r '.serviceAccount')
                 kms_key=$(echo "${json_data}" | jq -r '.kmsKey')
-
 
                 gcloud compute instance-templates create csye6225-vm-template \
                   --machine-type $machine_type \
