@@ -22,8 +22,7 @@ jobs:
               run: |
                 gcloud auth activate-service-account --key-file=${{ steps.auth.outputs.credentials_file_path }}
                 gcloud projects list
-                echo "${{ vars.TEMPLATE_CONFIG }}" > template_config.json
-                json_data=$(cat template_config.json)
+                json_data=$(echo '${{vars.BUILD_VARIABLES}}' | jq -r '.')
                 machine_type=$(echo "${json_data}" | jq -r '.machineType')
                 disk_type=$(echo "${json_data}" | jq -r '.diskType')
                 disk_size=$(echo "${json_data}" | jq -r '.diskSize')
@@ -41,7 +40,7 @@ jobs:
                   --network projects/csye-6225-414418/global/networks/csye6225-vpc\
                   --subnet $subnet \
                   --tags=webapp-firewall \
-                  --metadata=$metadata\
+                  --metadata $metadata\
                   --service-account= $service_account\
                   --scopes=https://www.googleapis.com/auth/cloud-platform \
                   --boot-disk-kms-key $kms_key
