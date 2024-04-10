@@ -40,7 +40,7 @@ jobs:
                   --network projects/csye-6225-414418/global/networks/csye6225-vpc\
                   --subnet $subnet \
                   --tags=webapp-firewall \
-                  --metadata $metadata\
-                  --service-account= $service_account\
+                  --metadata=$metadata \
+                  --service-account=$service_account \
                   --scopes=https://www.googleapis.com/auth/cloud-platform \
                   --boot-disk-kms-key $kms_key
