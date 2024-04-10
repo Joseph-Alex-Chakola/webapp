@@ -56,6 +56,12 @@ jobs:
               run: |
                 json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
                 region=$(echo "${json_data}" | jq -r '.region')
-                gcloud compute instance-groups managed rolling-action start-update my-instance-group \
+                gcloud compute instance-groups managed rolling-action start-update csye6225-vm-igm \
                   --version template=csye6225-vm-template \
+                  --region=$region
+            - name: 'Check Update Status'
+              run: |
+                json_data=$(echo '${{vars.TEMPLATE_CONFIG}}' | jq -r '.')
+                region=$(echo "${json_data}" | jq -r '.region')
+                gcloud compute instance-groups managed wait-until-stable csye6225-vm-igm \
                   --region=$region
