@@ -4,8 +4,6 @@ on:
         workflows: ["Packer Workflow"]
         types:
             - completed
-        branches:
-            - main
 jobs:
     update-template:
         runs-on: ubuntu-latest
