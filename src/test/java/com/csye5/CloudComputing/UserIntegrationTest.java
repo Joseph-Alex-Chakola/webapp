@@ -39,14 +39,14 @@ public class UserIntegrationTest {
         HttpEntity<String> requestEntity = new HttpEntity<String>(request, headers);
 
         ResponseEntity<String> response = restTemplate
-                .postForEntity("http://localhost:"+port+"/v1/user", requestEntity,String.class);
+                .postForEntity("http://localhost:"+port+"/v2/user", requestEntity,String.class);
         Assertions.assertEquals(201, response.getStatusCode().value());
 
         HttpHeaders headers1 = new HttpHeaders();
         headers1.set("Authorization","Basic amFuZS5kb2VAZXhhbXBsZS5jb206c2tkamZoc2tkZmpoZw==");
 
         ResponseEntity<String> response2 = restTemplate
-                .exchange("http://localhost:"+port+"/v1/user/self",
+                .exchange("http://localhost:"+port+"/v2/user/self",
                         HttpMethod.GET,
                         new HttpEntity<Object>(headers1),
                         String.class);
@@ -67,7 +67,7 @@ public class UserIntegrationTest {
         HttpEntity<String> requestEntity = new HttpEntity<String>(request, headers);
 
         ResponseEntity<String> response = restTemplate
-                .postForEntity("http://localhost:"+port+"/v1/user", requestEntity,String.class);
+                .postForEntity("http://localhost:"+port+"/v2/user", requestEntity,String.class);
         Assertions.assertEquals(201, response.getStatusCode().value());
 
         HttpHeaders headers1 = new HttpHeaders();
@@ -78,7 +78,7 @@ public class UserIntegrationTest {
                 "}";
         HttpEntity<String> requestEntity1 = new HttpEntity<String>(request1, headers1);
         ResponseEntity<String> response2 = restTemplate
-                .exchange("http://localhost:"+port+"/v1/user/self",
+                .exchange("http://localhost:"+port+"/v2/user/self",
                         HttpMethod.PUT,
                         requestEntity1,
                         String.class);
@@ -88,7 +88,7 @@ public class UserIntegrationTest {
         headers2.set("Authorization","Basic amFuZS5kb3dAZXhhbXBsZS5jb206cGFzc3dvcmQ=");
 
         ResponseEntity<String> response3 = restTemplate
-                .exchange("http://localhost:"+port+"/v1/user/self",
+                .exchange("http://localhost:"+port+"/v2/user/self",
                         HttpMethod.GET,
                         new HttpEntity<Object>(headers2),
                         String.class);

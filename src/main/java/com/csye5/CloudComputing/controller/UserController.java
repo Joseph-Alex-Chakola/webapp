@@ -27,7 +27,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping(value = "/v1/user")
+@RequestMapping(value = "/v2/user")
 @AllArgsConstructor
 public class UserController {
 
